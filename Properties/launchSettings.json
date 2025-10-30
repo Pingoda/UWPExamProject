@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "UWPExamProject": {
+      "commandName": "MsixPackage"
+    }
+  }
+}
