@@ -15,6 +15,10 @@ namespace UWPExamProject.Pages
     {
         private static readonly HttpClient _httpClient = new();
 
+        private int _currentPage = 1;
+        private int _totalPages = 1;
+        private const int PageSize = 10;
+
         public WebHttp()
         {
             this.InitializeComponent();
@@ -22,23 +26,59 @@ namespace UWPExamProject.Pages
 
         private async void btnTestWebHttp_Click(object sender, RoutedEventArgs e)
         {
+            await LoadPageAsync(1);
+        }
+
+        private async void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage > 1)
+                await LoadPageAsync(_currentPage - 1);
+        }
+
+        private async void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < _totalPages)
+                await LoadPageAsync(_currentPage + 1);
+        }
+
+        private async Task LoadPageAsync(int page)
+        {
             try
             {
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var json = await _httpClient.GetStringAsync("https://swapi.dev/api/people");
-                var root = JsonSerializer.Deserialize<SwapiList<SWCharacter>>(json, options);
-                var items = root?.results ?? new List<SWCharacter>();
+                var url = $"https://swapi.dev/api/people?page={page}";
+
+                if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
+                    url = "https://" + url.Substring("http://".Length);
+
+                var json = await _httpClient.GetStringAsync(url);
+                var pageData = JsonSerializer.Deserialize<SwapiList<SWCharacter>>(json, options) ?? new SwapiList<SWCharacter>();
+                var items = pageData.results ?? new List<SWCharacter>();
+
+                _currentPage = page;
+                _totalPages = (pageData.count > 0) ? ((pageData.count + PageSize - 1) / PageSize) : 1;
+
+                await PopulateHomeworldsForPeopleAsync(items);
 
                 lstWebJsonComments.ItemsSource = items;
                 lstStarships.ItemsSource = null;
 
                 await PopulateStarshipsForPeopleAsync(items);
+
+                UpdatePageControls();
             }
             catch (Exception ex)
             {
                 var md = new MessageDialog($"Error retrieving or parsing data: {ex.Message}");
                 await md.ShowAsync();
             }
+        }
+
+        private void UpdatePageControls()
+        {
+            btnPrevPage.IsEnabled = _currentPage > 1;
+            btnNextPage.IsEnabled = _currentPage < _totalPages;
+            txtPageInfo.Text = $"Page {_currentPage} / {_totalPages}";
         }
 
         private async void lstWebJsonComments_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -72,10 +112,8 @@ namespace UWPExamProject.Pages
                     lstStarships.ItemsSource = new List<Starship>();
                 }
             }
-            else
-            {
-            }
         }
+
         private async Task PopulateStarshipsForPeopleAsync(IEnumerable<SWCharacter> people)
         {
             var peopleList = people?.ToList() ?? new List<SWCharacter>();
@@ -94,6 +132,7 @@ namespace UWPExamProject.Pages
 
             await Task.WhenAll(tasks);
         }
+
         private async Task<List<Starship>> GetStarshipsAsync(List<string> urls)
         {
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -126,7 +165,50 @@ namespace UWPExamProject.Pages
 
             return result;
         }
+
+        private async Task PopulateHomeworldsForPeopleAsync(IEnumerable<SWCharacter> people)
+        {
+            var peopleList = people?.ToList() ?? new List<SWCharacter>();
+
+            var tasks = peopleList.Select(async person =>
+            {
+                if (!string.IsNullOrWhiteSpace(person.homeworld))
+                {
+                    person.homeworldRecord = await GetPlanetAsync(person.homeworld);
+                }
+                else
+                {
+                    person.homeworldRecord = null;
+                }
+            }).ToArray();
+
+            await Task.WhenAll(tasks);
+        }
+
+        private async Task<Planet?> GetPlanetAsync(string url)
+        {
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+            if (string.IsNullOrWhiteSpace(url))
+                return null;
+
+            var fetchUrl = url.StartsWith("http://", StringComparison.OrdinalIgnoreCase)
+                ? "https://" + url.Substring("http://".Length)
+                : url;
+
+            try
+            {
+                var json = await _httpClient.GetStringAsync(fetchUrl);
+                var planet = JsonSerializer.Deserialize<Planet>(json, options);
+                return planet;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
+
     public class SwapiList<T>
     {
         public int count { get; set; }
@@ -154,13 +236,29 @@ namespace UWPExamProject.Pages
         public DateTime edited { get; set; }
         public string url { get; set; }
         public List<Starship> starshipRecords { get; set; }
+        public Planet homeworldRecord { get; set; }
     }
+
     public class Starship
     {
         public string name { get; set; }
         public string model { get; set; }
         public string manufacturer { get; set; }
         public string starship_class { get; set; }
+        public string url { get; set; }
+    }
+
+    public class Planet
+    {
+        public string name { get; set; }
+        public string rotation_period { get; set; }
+        public string orbital_period { get; set; }
+        public string diameter { get; set; }
+        public string climate { get; set; }
+        public string gravity { get; set; }
+        public string terrain { get; set; }
+        public string surface_water { get; set; }
+        public string population { get; set; }
         public string url { get; set; }
     }
 }

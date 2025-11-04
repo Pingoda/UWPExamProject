@@ -19,20 +19,49 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-
-        <Button Content="HTTP GET" Margin="6" Name="btnTestWebHttp" Click="btnTestWebHttp_Click" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left"/>
+        
+        <StackPanel Orientation="Horizontal" Spacing="8" Margin="6" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Button Content="HTTP GET" Name="btnTestWebHttp" Click="btnTestWebHttp_Click"/>
+            <Button Content="Prev" Name="btnPrevPage" Click="btnPrevPage_Click" IsEnabled="False"/>
+            <TextBlock x:Name="txtPageInfo" VerticalAlignment="Center" Margin="6,0" Text="Page 0 / 0"/>
+            <Button Content="Next" Name="btnNextPage" Click="btnNextPage_Click" IsEnabled="False"/>
+        </StackPanel>
 
         <ListView x:Name="lstWebJsonComments" SelectionChanged="lstWebJsonComments_SelectionChanged" Grid.Row="1" Grid.Column="0" Margin="6">
             <ListView.Header>
-                <TextBlock Text="People" FontSize="18" FontWeight="Bold" Margin="4"/>
+                <TextBlock Text="People &amp; Homeworlds" FontSize="18" FontWeight="Bold" Margin="4"/>
             </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:SWCharacter">
-                    <StackPanel Margin="10" Orientation="Vertical">
-                        <TextBlock Text="Name:" FontWeight="Bold" Foreground="Gray"/>
-                        <TextBlock Text="{x:Bind name}" FontWeight="Bold"/>
-                        <TextBlock Text="{x:Bind gender}" FontWeight="Bold"/>
-                        <TextBlock Text="{x:Bind birth_year}" FontStyle="Italic"/>
+                    <StackPanel Margin="10" Orientation="Vertical" Spacing="2" BorderBrush="#22000000" BorderThickness="0,0,0,1" Padding="0,5,0,10">
+
+                        <TextBlock Text="{x:Bind name}" FontWeight="Bold" FontSize="16"/>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{x:Bind gender}"/>
+                            <TextBlock Text="{x:Bind birth_year}" FontStyle="Italic" Foreground="Gray"/>
+                        </StackPanel>
+
+                        <TextBlock Text="Homeworld" FontWeight="Bold" Foreground="DarkGoldenrod" Margin="0,8,0,2"/>
+                        <StackPanel Margin="10,0,0,0" Spacing="2">
+                            <TextBlock>
+                        <Run Text="Planet:"/>
+                        <Run Text="{x:Bind homeworldRecord.name, FallbackValue='Loading...'}" />
+                            </TextBlock>
+
+                            <TextBlock TextWrapping="Wrap">
+                        <Run Text="Terrain:"/>
+                        <Run Text="{x:Bind homeworldRecord.terrain, FallbackValue='...'}" />
+                            </TextBlock>
+
+                            <TextBlock>
+                        <Run Text="Gravity:"/>
+                        <Run Text="{x:Bind homeworldRecord.gravity, FallbackValue='...'}"/>
+                            </TextBlock>
+                            <TextBlock>
+                        <Run Text="Population:"/>
+                        <Run Text="{x:Bind homeworldRecord.population, FallbackValue='...'}"/>
+                            </TextBlock>
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -49,13 +78,14 @@
                     <DataTemplate x:DataType="local:Starship">
                         <Border BorderThickness="0,0,0,1" BorderBrush="#22000000" Padding="6">
                             <StackPanel Orientation="Vertical" Spacing="2">
-                                <TextBlock Text="{x:Bind name}" FontWeight="SemiBold" FontSize="14"/>
-                                <TextBlock Text="{x:Bind model}" FontStyle="Italic" Foreground="DarkSlateGray"/>
-                                <TextBlock Text="{x:Bind manufacturer}" TextWrapping="WrapWholeWords" Foreground="Gray"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <TextBlock Text="Class:" Foreground="DimGray"/>
-                                    <TextBlock Text="{x:Bind starship_class}" Foreground="DimGray"/>
-                                </StackPanel>
+                                <TextBlock Text="Name:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
+                                <TextBlock Text="{x:Bind name}" FontStyle="Italic" FontSize="14"/>
+                                <TextBlock Text="Model:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
+                                <TextBlock Text="{x:Bind model}" FontStyle="Italic" />
+                                <TextBlock Text="Manufacturer:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
+                                <TextBlock Text="{x:Bind manufacturer}" FontStyle="Italic" TextWrapping="WrapWholeWords" />
+                                <TextBlock Text="Class:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
+                                <TextBlock Text="{x:Bind starship_class}" FontStyle="Italic" />
                             </StackPanel>
                         </Border>
                     </DataTemplate>
