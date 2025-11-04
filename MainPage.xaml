@@ -9,7 +9,16 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto">
+            </RowDefinition>
+            <RowDefinition Height="*">
+            </RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
             <Button Content="Anagrafica - Files - DB" Margin="10" Name="btnAnag" Click="btnAnag_Click" />
             <Button Content="Web HTTP" Margin="10" Name="btnWebHttp" Click="btnWebHttp_Click" />
             <Button Content="Gestione Log" Margin="10" Name="btnLogManager" Click="btnLogManager_Click" />

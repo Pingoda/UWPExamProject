@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="UWPExamProject.Pages.Anagrafica"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPExamProject.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
+
+            <StackPanel VerticalAlignment="Top" Width="500" HorizontalAlignment="Left" Orientation="Vertical">
+                <TextBlock Text="Gestione Anagrafica" FontSize="20" HorizontalAlignment="Center"
+                    Foreground="BlueViolet"  Margin="10"/>
+                <TextBlock Text="Matricola" Margin="10"/>
+                <TextBox Name="txtEnrollment" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
+                <TextBlock Text="Nominativo" Margin="10"/>
+                <TextBox Name="txtFullName" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
+                <TextBlock Text="Email" Margin="10"/>
+                <TextBox Name="txtEmail" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
+                <TextBlock Text="Phone" Margin="10"/>
+                <TextBox Name="txtPhone" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
+
+                <Button Name="btnInsertRegistry" Content="Inserisci Dati" Click="btnInsertRegistry_Click" Margin="10,20" />
+                <Button Name="btnSaveJSON" Content="Salva JSON" Click="btnSaveJSON_Click" Margin="10" />
+                <Button Name="btnReadJSON" Content="Leggi JSON" Click="btnReadJSON_Click" Margin="10" />
+
+                <TextBlock Name="StatusOperation" TextWrapping="Wrap" Margin="10"/>
+            </StackPanel>
+
+        </ScrollViewer>
+    </Grid>
+</Page>
