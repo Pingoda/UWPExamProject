@@ -9,7 +9,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="8">
+    <Grid Padding="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -19,84 +19,196 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Orientation="Horizontal" Spacing="8" Margin="6" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button Content="HTTP GET" Name="btnTestWebHttp" Click="btnTestWebHttp_Click"/>
-            <Button Content="Prev" Name="btnPrevPage" Click="btnPrevPage_Click" IsEnabled="False"/>
-            <TextBlock x:Name="txtPageInfo" VerticalAlignment="Center" Margin="6,0" Text="Page 0 / 0"/>
-            <Button Content="Next" Name="btnNextPage" Click="btnNextPage_Click" IsEnabled="False"/>
+
+        <StackPanel Orientation="Horizontal"
+                    Spacing="10"
+                    Margin="0,0,0,15"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalAlignment="Center">
+
+            <Button Content="🌐 HTTP GET"
+                    Name="btnTestWebHttp"
+                    Click="btnTestWebHttp_Click"
+                    Background="#6A0DAD"
+                    Foreground="White"
+                    Padding="10,6"
+                    BorderThickness="0"/>
+
+            <Button Content="⏪ Prev"
+                    Name="btnPrevPage"
+                    Click="btnPrevPage_Click"
+                    IsEnabled="False"
+                    Padding="10,6"/>
+
+            <TextBlock x:Name="txtPageInfo"
+                       VerticalAlignment="Center"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Foreground="#444"
+                       Margin="8,0"
+                       Text="Page 0 / 0"/>
+
+            <Button Content="Next ⏩"
+                    Name="btnNextPage"
+                    Click="btnNextPage_Click"
+                    IsEnabled="False"
+                    Padding="10,6"/>
         </StackPanel>
 
-        <ListView x:Name="lstWebJsonComments" SelectionChanged="lstWebJsonComments_SelectionChanged" Grid.Row="1" Grid.Column="0" Margin="6">
-            <ListView.Header>
-                <TextBlock Text="People &amp; Homeworlds" FontSize="18" FontWeight="Bold" Margin="4"/>
-            </ListView.Header>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="local:SWCharacter">
-                    <StackPanel Margin="10" Orientation="Vertical" Spacing="2" BorderBrush="#22000000" BorderThickness="0,0,0,1" Padding="0,5,0,10">
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Background="#413f54"
+                BorderBrush="#CCC"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="10"
+                Margin="0,0,10,0">
+            <ListView x:Name="lstWebJsonComments"
+                      SelectionChanged="lstWebJsonComments_SelectionChanged"
+                      VerticalAlignment="Stretch"
+                      Background="Transparent">
 
-                        <TextBlock Text="{x:Bind name}" FontWeight="Bold" FontSize="16"/>
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="{x:Bind gender}"/>
-                            <TextBlock Text="{x:Bind birth_year}" FontStyle="Italic" Foreground="Gray"/>
-                        </StackPanel>
+                <ListView.Header>
+                    <TextBlock Text="People &amp; Homeworlds"
+                               FontSize="18"
+                               FontWeight="SemiBold"
+                               Foreground="#E0E0E0"
+                               Margin="6,4,6,10"/>
+                </ListView.Header>
 
-                        <TextBlock Text="Homeworld" FontWeight="Bold" Foreground="DarkGoldenrod" Margin="0,8,0,2"/>
-                        <StackPanel Margin="10,0,0,0" Spacing="2">
-                            <TextBlock>
-                        <Run Text="Planet:"/>
-                        <Run Text="{x:Bind homeworldRecord.name, FallbackValue='Loading...'}" />
-                            </TextBlock>
-
-                            <TextBlock TextWrapping="Wrap">
-                        <Run Text="Terrain:"/>
-                        <Run Text="{x:Bind homeworldRecord.terrain, FallbackValue='...'}" />
-                            </TextBlock>
-
-                            <TextBlock>
-                        <Run Text="Gravity:"/>
-                        <Run Text="{x:Bind homeworldRecord.gravity, FallbackValue='...'}"/>
-                            </TextBlock>
-                            <TextBlock>
-                        <Run Text="Population:"/>
-                        <Run Text="{x:Bind homeworldRecord.population, FallbackValue='...'}"/>
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Grid Grid.Row="1" Grid.Column="1" Margin="6">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" Text="Starships" FontSize="18" FontWeight="Bold" Margin="4"/>
-            <TextBlock Grid.Row="1" Text="{Binding SelectedItem.name, ElementName=lstWebJsonComments}" FontStyle="Italic" Foreground="Gray" Margin="0,0,0,8"/>
-
-            <ProgressRing x:Name="prgStarships" Grid.Row="1" Width="24" Height="24" IsActive="False" Visibility="Collapsed" Margin="0,0,0,8" HorizontalAlignment="Right"/>
-
-            <ListView x:Name="lstStarships" Grid.Row="2" VerticalAlignment="Stretch">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="local:Starship">
-                        <Border BorderThickness="0,0,0,1" BorderBrush="#22000000" Padding="6">
-                            <StackPanel Orientation="Vertical" Spacing="2">
-                                <TextBlock Text="Name:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
-                                <TextBlock Text="{x:Bind name}" FontStyle="Italic" FontSize="14"/>
-                                <TextBlock Text="Model:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
-                                <TextBlock Text="{x:Bind model}" FontStyle="Italic" />
-                                <TextBlock Text="Manufacturer:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
-                                <TextBlock Text="{x:Bind manufacturer}" FontStyle="Italic" TextWrapping="WrapWholeWords" />
-                                <TextBlock Text="Class:" FontWeight="Bold" Foreground="Gray" Margin="0,6,0,0"/>
-                                <TextBlock Text="{x:Bind starship_class}" FontStyle="Italic" />
+                    <DataTemplate x:DataType="local:SWCharacter">
+                        <StackPanel Margin="4,0,4,10"
+                                    Orientation="Vertical"
+                                    Spacing="4"
+                                    BorderBrush="#666"
+                                    BorderThickness="0,0,0,1"
+                                    Padding="0,0,0,8">
+                            <TextBlock Text="{x:Bind name}"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       Foreground="White"/>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Foreground="#D0D0D0">
+                                    <Run Text="🚻"/>
+                                    <Run Text="{x:Bind gender}"/>
+                                </TextBlock>
+                                <TextBlock Foreground="#D0D0D0">
+                                    <Run Text="📅"/>
+                                    <Run Text="{x:Bind birth_year}"/>
+                                </TextBlock>
                             </StackPanel>
-                        </Border>
+                            
+                            <TextBlock Text="Homeworld"
+                                       FontWeight="Bold"
+                                       Foreground="#E0E0E0"
+                                       Margin="0,6,0,2"/>
+                            <StackPanel Margin="10,0,0,0" Spacing="2">
+                                <TextBlock Foreground="White">
+                                    <Run Text="🌍 Planet: "/>
+                                    <Run Text="{x:Bind homeworldRecord.name, FallbackValue='Loading...'}"/>
+                                </TextBlock>
+                                <TextBlock TextWrapping="WrapWholeWords" Foreground="White">
+                                    <Run Text="🏔 Terrain: "/>
+                                    <Run Text="{x:Bind homeworldRecord.terrain, FallbackValue='...'}"/>
+                                </TextBlock>
+                                <TextBlock Foreground="White">
+                                    <Run Text="🪐 Gravity: "/>
+                                    <Run Text="{x:Bind homeworldRecord.gravity, FallbackValue='...'}"/>
+                                </TextBlock>
+                                <TextBlock Foreground="White">
+                                    <Run Text="👥 Population: "/>
+                                    <Run Text="{x:Bind homeworldRecord.population, FallbackValue='...'}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                Background="#413f54"
+                BorderBrush="#CCC"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           Text="Starships"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           Foreground="#E0E0E0"
+                           Margin="6,4,6,10"/>
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Margin="6,0,0,8"
+                            Spacing="8">
+
+                    <TextBlock Text="{Binding SelectedItem.name, ElementName=lstWebJsonComments}"
+                               FontStyle="Italic"
+                               Foreground="#D0D0D0"/>
+                    
+                    <ProgressRing x:Name="prgStarships"
+                                  Width="22"
+                                  Height="22"
+                                  IsActive="False"
+                                  Visibility="Collapsed"/>
+                </StackPanel>
+
+                <ListView x:Name="lstStarships"
+                          Grid.Row="2"
+                          VerticalAlignment="Stretch"
+                          Background="Transparent">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Starship">
+                            <Border BorderThickness="0,0,0,1"
+                                    BorderBrush="#666"
+                                    Padding="4,6">
+                                <StackPanel Orientation="Vertical" Spacing="2">
+                                    <TextBlock Text="Starship"
+                                        FontWeight="Bold"
+                                        Foreground="#E0E0E0"
+                                        Margin="0,6,0,2"/>
+
+                                    <StackPanel Margin="10,0,0,0" Spacing="2">
+                                        <TextBlock Foreground="White">
+                                            <Run Text="🚀 Name: "/>
+                                            <Run Text="{x:Bind name, FallbackValue='Loading...'}"/>
+                                        </TextBlock>
+
+                                        <TextBlock Foreground="White">
+                                            <Run Text="📋 Model: "/>
+                                            <Run Text="{x:Bind model, FallbackValue='Loading...'}"/>
+                                        </TextBlock>
+
+                                        <TextBlock Foreground="White">
+                                            <Run Text="⚙️ Manufacturer: "/>
+                                            <Run Text="{x:Bind manufacturer, FallbackValue='Loading...'}"/>
+                                        </TextBlock>
+
+                                        <TextBlock Foreground="White">
+                                            <Run Text="⚜️ Class: "/>
+                                            <Run Text="{x:Bind starship_class, FallbackValue='Loading...'}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

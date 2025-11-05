@@ -53,5 +53,26 @@ namespace UWPExamProject.Pages
                 await new Windows.UI.Popups.MessageDialog("Errore durante la lettura del log.").ShowAsync();
             }
         }
+
+        /// <summary>
+        /// NUOVO METODO: Svuota la ListView e sovrascrive il file di log con un file vuoto.
+        /// </summary>
+        private async void btnResetLog_Click(object sender, RoutedEventArgs e)
+        {
+            lvLog.Items.Clear();
+            try
+            {
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+                // Creando il file con ReplaceExisting, sovrascriviamo quello vecchio con uno nuovo vuoto.
+                await localFolder.CreateFileAsync(LogFileName, CreationCollisionOption.ReplaceExisting);
+
+                await new Windows.UI.Popups.MessageDialog("File di log resettato con successo.").ShowAsync();
+            }
+            catch (Exception ex)
+            {
+                await LogHandler.Write(ex);
+                await new Windows.UI.Popups.MessageDialog("Errore durante il reset del log.").ShowAsync();
+            }
+        }
     }
 }

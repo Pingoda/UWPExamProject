@@ -1,4 +1,4 @@
-﻿<Page
+﻿ <Page
     x:Class="UWPExamProject.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,20 +10,41 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto">
-            </RowDefinition>
-            <RowDefinition Height="*">
-            </RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-        </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-            <Button Content="Anagrafica - Files - DB" Margin="10" Name="btnAnag" Click="btnAnag_Click" />
-            <Button Content="Web HTTP" Margin="10" Name="btnWebHttp" Click="btnWebHttp_Click" />
-            <Button Content="Gestione Log" Margin="10" Name="btnLogManager" Click="btnLogManager_Click" />
-            <Button Content="Chiudi Esci App" Margin="10" Name="btnExit" Click="btnExit_Click" />
+        <StackPanel Orientation="Horizontal" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Center"
+                    Spacing="10"
+                    Padding="10">
+
+            <Button Content="Anagrafica - Files - DB" 
+                    Name="btnAnag" 
+                    Click="btnAnag_Click"
+                    Padding="10,6"/>
+
+            <Button Content="Web HTTP" 
+                    Name="btnWebHttp" 
+                    Click="btnWebHttp_Click" 
+                    Padding="10,6"/>
+
+            <Button Content="Gestione Log" 
+                    Name="btnLogManager" 
+                    Click="btnLogManager_Click" 
+                    Padding="10,6"/>
+
+            <Button Content="Chiudi Esci App" 
+                    Name="btnExit" 
+                    Click="btnExit_Click"
+                    Background="#D9534F" 
+                    Foreground="White"
+                    Padding="10,6"
+                    BorderThickness="0"/>
         </StackPanel>
+
         <Frame x:Name="Mainframe" Grid.Row="1" />
+
     </Grid>
 </Page>

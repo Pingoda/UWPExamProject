@@ -1,10 +1,16 @@
-﻿using System;
+﻿using UWPExamProject.Pages;
+using Windows.UI.Xaml.Controls;
+using UWPExamProject.Pages;
+using System;
 using UWPExamProject.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPExamProject
 {
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a <see cref="Frame">.
+    /// </summary>
     public sealed partial class MainPage : Page
     {
         public MainPage()

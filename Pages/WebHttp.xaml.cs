@@ -48,6 +48,7 @@ namespace UWPExamProject.Pages
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var url = $"https://swapi.dev/api/people?page={page}";
 
+                // normalize http -> https if needed
                 if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase))
                     url = "https://" + url.Substring("http://".Length);
 
@@ -55,14 +56,18 @@ namespace UWPExamProject.Pages
                 var pageData = JsonSerializer.Deserialize<SwapiList<SWCharacter>>(json, options) ?? new SwapiList<SWCharacter>();
                 var items = pageData.results ?? new List<SWCharacter>();
 
+                // compute paging info
                 _currentPage = page;
                 _totalPages = (pageData.count > 0) ? ((pageData.count + PageSize - 1) / PageSize) : 1;
 
+                // prefetch homeworlds before binding so x:Bind (OneTime) picks up values
                 await PopulateHomeworldsForPeopleAsync(items);
 
+                // bind UI for this page
                 lstWebJsonComments.ItemsSource = items;
                 lstStarships.ItemsSource = null;
 
+                // optional: prefetch starships for items on this page
                 await PopulateStarshipsForPeopleAsync(items);
 
                 UpdatePageControls();
@@ -236,6 +241,8 @@ namespace UWPExamProject.Pages
         public DateTime edited { get; set; }
         public string url { get; set; }
         public List<Starship> starshipRecords { get; set; }
+
+        // cached homeworld record (fetched from SWAPI)
         public Planet homeworldRecord { get; set; }
     }
 

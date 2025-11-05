@@ -8,28 +8,91 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
+    <ScrollViewer Padding="20" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel VerticalAlignment="Top" Width="500" HorizontalAlignment="Left" Orientation="Vertical">
-                <TextBlock Text="Gestione Anagrafica" FontSize="20" HorizontalAlignment="Center"
-                    Foreground="BlueViolet"  Margin="10"/>
-                <TextBlock Text="Matricola" Margin="10"/>
-                <TextBox Name="txtEnrollment" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
-                <TextBlock Text="Nominativo" Margin="10"/>
-                <TextBox Name="txtFullName" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
-                <TextBlock Text="Email" Margin="10"/>
-                <TextBox Name="txtEmail" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
-                <TextBlock Text="Phone" Margin="10"/>
-                <TextBox Name="txtPhone" Width="200" HorizontalAlignment="Left" Margin="10,0,0,5"/>
+        <StackPanel Width="400" HorizontalAlignment="Center" Spacing="0">
+            <TextBlock Text="Gestione Anagrafica"
+                       FontSize="26"
+                       FontWeight="SemiBold"
+                       Foreground="#6A0DAD"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
 
-                <Button Name="btnInsertRegistry" Content="Inserisci Dati" Click="btnInsertRegistry_Click" Margin="10,20" />
-                <Button Name="btnSaveJSON" Content="Salva JSON" Click="btnSaveJSON_Click" Margin="10" />
-                <Button Name="btnReadJSON" Content="Leggi JSON" Click="btnReadJSON_Click" Margin="10" />
+            <TextBox x:Name="txtEnrollment"
+                     Header="Matricola"
+                     PlaceholderText="Inserisci la matricola"
+                     Margin="0,0,0,4"/>
+            <TextBlock x:Name="ErrorEnrollment"
+                       Foreground="Red"
+                       FontSize="12"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,12"/>
+            <TextBox x:Name="txtFullName"
+                     Header="Nominativo"
+                     PlaceholderText="Inserisci nome e cognome"
+                     Margin="0,0,0,4"/>
+            <TextBlock x:Name="ErrorFullName"
+                       Foreground="Red"
+                       FontSize="12"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,12"/>
 
-                <TextBlock Name="StatusOperation" TextWrapping="Wrap" Margin="10"/>
+            <TextBox x:Name="txtEmail"
+                     Header="Email"
+                     PlaceholderText="esempio@email.com"
+                     Margin="0,0,0,4"/>
+            <TextBlock x:Name="ErrorEmail"
+                       Foreground="Red"
+                       FontSize="12"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,12"/>
+
+            <TextBox x:Name="txtPhone"
+                     Header="Telefono"
+                     PlaceholderText="+39 123 4567890"
+                     Margin="0,0,0,4"/>
+            <TextBlock x:Name="ErrorPhone"
+                       Foreground="Red"
+                       FontSize="12"
+                       Visibility="Collapsed"
+                       Margin="0,0,0,12"/>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Spacing="10"
+                        Margin="0,15,0,0">
+                <Button x:Name="btnInsertRegistry"
+                        Content="📝 Inserisci"
+                        Click="btnInsertRegistry_Click"
+                        Background="#6A0DAD"
+                        Foreground="White"
+                        Padding="10,6"
+                        BorderThickness="0"/>
+                <Button x:Name="btnSaveJSON"
+                        Content="💾 Salva JSON"
+                        Click="btnSaveJSON_Click"
+                        Padding="10,6"/>
+                <Button x:Name="btnReadJSON"
+                        Content="📂 Leggi JSON"
+                        Click="btnReadJSON_Click"
+                        Padding="10,6"/>
             </StackPanel>
 
-        </ScrollViewer>
-    </Grid>
+            <Border BorderBrush="#CCC"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="10"
+                    Margin="0,20,0,0"
+                    Background="#413f54">
+                <ScrollViewer MaxHeight="200">
+                    <TextBlock x:Name="StatusOperation"
+                               TextWrapping="WrapWholeWords"
+                               FontFamily="Consolas"
+                               FontSize="13"
+                               Foreground="#F0F0F0"/>
+                </ScrollViewer>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
 </Page>
